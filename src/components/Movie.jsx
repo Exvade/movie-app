@@ -1,8 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux'; // Import useSelector
 import Card from './Card';
 import SearchBar from './SearchBar';
 
-export default function Movie({ movies, onSearch }) {
+export default function Movie({ onSearch }) {
+  const movies = useSelector((state) => state.movies.movies); // Ambil movies dari Redux
+
   return (
     <div className="bg-[#1b1b1b]">
       <div className="w-[90vw] mx-auto py-20">
@@ -16,9 +19,11 @@ export default function Movie({ movies, onSearch }) {
         </div>
         <div className="mt-4">
           <div className="flex flex-wrap justify-around">
-            {movies.map(movie => (
-              <Card key={movie.imdbID} movie={movie} />
-            ))}
+            {movies && movies.length > 0 ? (
+              movies.map((movie) => <Card key={movie.imdbID} movie={movie} />)
+            ) : (
+              <p className="text-white">No movies found</p>
+            )}
           </div>
         </div>
       </div>
